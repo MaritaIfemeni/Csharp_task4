@@ -5,8 +5,13 @@ using System.Threading.Tasks;
 
 namespace src.Shared
 {
-    public class ExpectionHandler
+    public class ExpectionHandler : Exception
     {
-        
+        public ExpectionHandler(string message) : base(message)
+        {
+
+        }
+
     }
+
 }

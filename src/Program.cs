@@ -16,8 +16,8 @@ public class Program
             Console.WriteLine("2. Update a customer");
             Console.WriteLine("3. Search for a customer by id");
             Console.WriteLine("4. Delete a customer");
-            // Console.WriteLine("5. Undo");
-            // Console.WriteLine("6. Redo");
+            Console.WriteLine("5. Undo");
+            Console.WriteLine("6. Redo");
             Console.WriteLine("7. Exit");
             Console.Write("Enter your choice: ");
             choice = Console.ReadLine()!;
@@ -102,6 +102,12 @@ public class Program
                     {
                         Console.WriteLine(ex.Message);
                     }
+                    break;
+                case "5":
+                    database.Undo();
+                    break;
+                case "6":
+                    database.Redo();
                     break;
                 case "7":
                     Console.WriteLine("Goodbye!");

@@ -4,7 +4,7 @@ namespace src.Actions
 {
     public class FileHelper
     {
-        private const string FilePath = "customers.csv";
+        private const string FilePath = "src/Data/customers.csv";
 
         public List<Customer> ReadCustomersFromFile()
         {

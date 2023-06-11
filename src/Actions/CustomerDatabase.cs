@@ -16,14 +16,21 @@ namespace src.Actions
     {
         private List<Customer> customers;
         private FileHelper fileHelper;
+        public HashSet<Customer> customerHistory;
+        public Stack<HashSet<Customer>> undoStack;
+        public Stack<HashSet<Customer>> redoStack;
 
         public CustomerDatabase()
         {
             fileHelper = new FileHelper();
             customers = fileHelper.ReadCustomersFromFile();
+            customerHistory = new HashSet<Customer>(customers);
+            undoStack = new Stack<HashSet<Customer>>();
+            redoStack = new Stack<HashSet<Customer>>();
 
         }
         public void AddCustomer(Customer customer)
+
         {
             if (customers.Any(c => c.Email == customer.Email))
             {
@@ -32,7 +39,10 @@ namespace src.Actions
 
             customer.Id = customer.GenerateUniqueId();
             customers.Add(customer);
+            customerHistory.Add(customer);
             fileHelper.WriteCustomersToFile(customers);
+            undoStack.Push(new HashSet<Customer>(customerHistory));
+            redoStack.Clear();
         }
 
         public Customer GetCustomerById(int id)
@@ -42,21 +52,21 @@ namespace src.Actions
         public void UpdateCustomer(int id, Customer customer)
         {
             Customer customerToUpdate = customers.FirstOrDefault(c => c.Id == customer.Id)!;
-            if (customerToUpdate == null)
-            {
-                throw new Exception("Customer does not exist in the database.");
-            }
-
             customerToUpdate.FirstName = customer.FirstName;
             customerToUpdate.LastName = customer.LastName;
             customerToUpdate.Email = customer.Email;
             customerToUpdate.Address = customer.Address;
             fileHelper.WriteCustomersToFile(customers);
+            undoStack.Push(new HashSet<Customer>(customerHistory));
+            redoStack.Clear();
         }
         public void DeleteCustomer(int id)
         {
             fileHelper.DeleteCustomerFromFile(id);
             customers.RemoveAll(c => c.Id == id);
+
+            undoStack.Push(new HashSet<Customer>(customerHistory));
+            redoStack.Clear();
         }
 
         public void PrintCustomerById(int id)
@@ -64,6 +74,36 @@ namespace src.Actions
             fileHelper.PrintCustomerById(id);
         }
 
+        public void Undo()
+        {
+            if (undoStack.Count > 0)
+            {
+                redoStack.Push(new HashSet<Customer>(customerHistory));
+                customerHistory = undoStack.Pop();
+                customers = customerHistory.ToList();
+                fileHelper.WriteCustomersToFile(customers);
+                Console.WriteLine("Undo successful!");
+            }
+            else
+            {
+                Console.WriteLine("Nothing to undo!");
+            }
+        }
+        public void Redo()
+        {
+            if (redoStack.Count > 0)
+            {
+                undoStack.Push(new HashSet<Customer>(customerHistory));
+                customerHistory = redoStack.Pop();
+                customers = customerHistory.ToList();
+                fileHelper.WriteCustomersToFile(customers);
+                Console.WriteLine("Redo successful!");
+            }
+            else
+            {
+                Console.WriteLine("Nothing to redo!");
+            }
+        }
 
     }
 }

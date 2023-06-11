@@ -53,6 +53,17 @@ namespace src.Actions
             customerToUpdate.Address = customer.Address;
             fileHelper.WriteCustomersToFile(customers);
         }
+        public void DeleteCustomer(int id)
+        {
+            fileHelper.DeleteCustomerFromFile(id);
+            customers.RemoveAll(c => c.Id == id);
+        }
+
+        public void PrintCustomerById(int id)
+        {
+            fileHelper.PrintCustomerById(id);
+        }
+
 
     }
 }

@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace src.Actions
 {
@@ -26,7 +23,7 @@ namespace src.Actions
                     string address = values[4];
 
                     Customer customer = new Customer(firstName, lastName, email, address);
-                    customer.Id = id; // Set the ID explicitly
+                    customer.Id = id;
                     customers.Add(customer);
                 }
             }
@@ -45,5 +42,35 @@ namespace src.Actions
                 }
             }
         }
+
+        public void DeleteCustomerFromFile(int id)
+        {
+            List<Customer> updatedCustomers = ReadCustomersFromFile();
+            Customer customerToDelete = updatedCustomers.FirstOrDefault(c => c.Id == id)!;
+            if (customerToDelete == null)
+            {
+                throw new Exception("Customer does not exist in the database.");
+            }
+
+            updatedCustomers.Remove(customerToDelete);
+            WriteCustomersToFile(updatedCustomers);
+        }
+
+        public void PrintCustomerById(int id)
+        {
+            Customer customer = ReadCustomersFromFile().FirstOrDefault(c => c.Id == id)!;
+            if (customer == null)
+            {
+                throw new Exception("Customer does not exist in the database.");
+            }
+
+            Console.WriteLine("Customer Details:");
+            Console.WriteLine($"ID: {customer.Id}");
+            Console.WriteLine($"First Name: {customer.FirstName}");
+            Console.WriteLine($"Last Name: {customer.LastName}");
+            Console.WriteLine($"Email: {customer.Email}");
+            Console.WriteLine($"Address: {customer.Address}");
+        }
+
     }
 }

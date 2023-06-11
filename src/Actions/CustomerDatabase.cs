@@ -22,9 +22,7 @@ namespace src.Actions
             fileHelper = new FileHelper();
             customers = fileHelper.ReadCustomersFromFile();
 
-
         }
-
         public void AddCustomer(Customer customer)
         {
             if (customers.Any(c => c.Email == customer.Email))
@@ -36,5 +34,25 @@ namespace src.Actions
             customers.Add(customer);
             fileHelper.WriteCustomersToFile(customers);
         }
+
+        public Customer GetCustomerById(int id)
+        {
+            return customers.FirstOrDefault(c => c.Id == id)!;
+        }
+        public void UpdateCustomer(int id, Customer customer)
+        {
+            Customer customerToUpdate = customers.FirstOrDefault(c => c.Id == customer.Id)!;
+            if (customerToUpdate == null)
+            {
+                throw new Exception("Customer does not exist in the database.");
+            }
+
+            customerToUpdate.FirstName = customer.FirstName;
+            customerToUpdate.LastName = customer.LastName;
+            customerToUpdate.Email = customer.Email;
+            customerToUpdate.Address = customer.Address;
+            fileHelper.WriteCustomersToFile(customers);
+        }
+
     }
 }

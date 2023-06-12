@@ -4,15 +4,14 @@ namespace src.Actions
 {
     public class FileHelper
     {
-        private const string FilePath = "src/Data/customers.csv";
-
+        private const string _filePath = "src/Data/customers.csv";
         public List<Customer> ReadCustomersFromFile()
         {
             List<Customer> customers = new List<Customer>();
 
-            if (File.Exists(FilePath))
+            if (File.Exists(_filePath))
             {
-                var lines = File.ReadAllLines(FilePath);
+                var lines = File.ReadAllLines(_filePath);
                 foreach (var line in lines)
                 {
                     var values = line.Split(',');
@@ -21,19 +20,16 @@ namespace src.Actions
                     string lastName = values[2];
                     string email = values[3];
                     string address = values[4];
-
                     Customer customer = new Customer(firstName, lastName, email, address);
                     customer.Id = id;
                     customers.Add(customer);
                 }
             }
-
             return customers;
         }
-
         public void WriteCustomersToFile(List<Customer> customers)
         {
-            using (StreamWriter writer = new StreamWriter(FilePath))
+            using (StreamWriter writer = new StreamWriter(_filePath))
             {
                 foreach (var customer in customers)
                 {
@@ -42,7 +38,6 @@ namespace src.Actions
                 }
             }
         }
-
         public void DeleteCustomerFromFile(int id)
         {
             List<Customer> updatedCustomers = ReadCustomersFromFile();
@@ -51,11 +46,9 @@ namespace src.Actions
             {
                 throw new CustomerNotFoundException(id.ToString());
             }
-
             updatedCustomers.Remove(customerToDelete);
             WriteCustomersToFile(updatedCustomers);
         }
-
         public void PrintCustomerById(int id)
         {
             Customer customer = ReadCustomersFromFile().FirstOrDefault(c => c.Id == id)!;
@@ -63,7 +56,6 @@ namespace src.Actions
             {
                 throw new CustomerNotFoundException(id.ToString());
             }
-
             Console.WriteLine("Customer Details:");
             Console.WriteLine($"ID: {customer.Id}");
             Console.WriteLine($"First Name: {customer.FirstName}");
@@ -71,6 +63,5 @@ namespace src.Actions
             Console.WriteLine($"Email: {customer.Email}");
             Console.WriteLine($"Address: {customer.Address}");
         }
-
     }
 }

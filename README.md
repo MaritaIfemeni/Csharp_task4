@@ -1,6 +1,6 @@
 ## C# Assignment: Customer Database Management
 
-The purpose off this assignment was to build a customer database application that can store and retrieve cutomer information in a .csv file and it should contain the basic CRUD operations and seperate exception handler.
+The purpose off this assignment was to build a customer database application that can store and retrieve customer information in a .csv file and it should contain the basic CRUD operations and seperate exception handler.
 
 ## Missing Features
 

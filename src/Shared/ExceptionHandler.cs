@@ -1,18 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 
 namespace src.Shared
 {
-    public class ExpectionHandler
+    public class ExceptionHandler
     {
-        public static void HandleExpextion(Exception ex)
+        public static void HandleException(Exception ex)
         {
             Console.WriteLine("There has been an error: " + ex.Message);
         }
-
     }
     public class DuplicateEmailException : Exception
     {
@@ -21,7 +15,6 @@ namespace src.Shared
             Console.WriteLine("Duplicate email exception occurred.");
         }
     }
-
     public class CustomerNotFoundException : Exception
     {
         public CustomerNotFoundException(string id) : base("Id: " + id + " does not exist in the database.")
@@ -29,5 +22,4 @@ namespace src.Shared
             Console.WriteLine("Customer not found exception occurred.");
         }
     }
-
 }

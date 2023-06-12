@@ -1,4 +1,4 @@
-using System;
+using src.Shared;
 
 namespace src.Actions
 {
@@ -49,7 +49,7 @@ namespace src.Actions
             Customer customerToDelete = updatedCustomers.FirstOrDefault(c => c.Id == id)!;
             if (customerToDelete == null)
             {
-                throw new Exception("Customer does not exist in the database.");
+                throw new CustomerNotFoundException(id.ToString());
             }
 
             updatedCustomers.Remove(customerToDelete);
@@ -61,7 +61,7 @@ namespace src.Actions
             Customer customer = ReadCustomersFromFile().FirstOrDefault(c => c.Id == id)!;
             if (customer == null)
             {
-                throw new Exception("Customer does not exist in the database.");
+                throw new CustomerNotFoundException(id.ToString());
             }
 
             Console.WriteLine("Customer Details:");

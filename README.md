@@ -4,7 +4,8 @@ The purpose off this assignment was to build a customer database application tha
 
 ## Missing Features
 
-- Exception handling has not been implemented yet.
+- No proper validation has been applied.
+- In some cases application crashes when user enters invalid input.
 
 ### Technologies used
 - C#

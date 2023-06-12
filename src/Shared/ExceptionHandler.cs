@@ -22,4 +22,11 @@ namespace src.Shared
             Console.WriteLine("Customer not found exception occurred.");
         }
     }
+    public class CustomerFileNotFoundException : Exception
+    {
+        public CustomerFileNotFoundException(string filePath) : base("File: " + filePath + " does not exist.")
+        {
+            Console.WriteLine("Customer file not found exception occurred. You need to create a file called customers.csv in the Data folder.");
+        }
+    }
 }

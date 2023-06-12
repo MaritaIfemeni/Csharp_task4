@@ -5,25 +5,28 @@ namespace src.Actions
     public class FileHelper
     {
         private const string _filePath = "src/Data/customers.csv";
+        public FileHelper()
+        {
+            if (!File.Exists(_filePath))
+            {
+                throw new CustomerFileNotFoundException(_filePath);
+            }
+        }
         public List<Customer> ReadCustomersFromFile()
         {
             List<Customer> customers = new List<Customer>();
-
-            if (File.Exists(_filePath))
+            var lines = File.ReadAllLines(_filePath);
+            foreach (var line in lines)
             {
-                var lines = File.ReadAllLines(_filePath);
-                foreach (var line in lines)
-                {
-                    var values = line.Split(',');
-                    int id = int.Parse(values[0]);
-                    string firstName = values[1];
-                    string lastName = values[2];
-                    string email = values[3];
-                    string address = values[4];
-                    Customer customer = new Customer(firstName, lastName, email, address);
-                    customer.Id = id;
-                    customers.Add(customer);
-                }
+                var values = line.Split(',');
+                int id = int.Parse(values[0]);
+                string firstName = values[1];
+                string lastName = values[2];
+                string email = values[3];
+                string address = values[4];
+                Customer customer = new Customer(firstName, lastName, email, address);
+                customer.Id = id;
+                customers.Add(customer);
             }
             return customers;
         }
@@ -37,17 +40,6 @@ namespace src.Actions
                     writer.WriteLine(line);
                 }
             }
-        }
-        public void DeleteCustomerFromFile(int id)
-        {
-            List<Customer> updatedCustomers = ReadCustomersFromFile();
-            Customer customerToDelete = updatedCustomers.FirstOrDefault(c => c.Id == id)!;
-            if (customerToDelete == null)
-            {
-                throw new CustomerNotFoundException(id.ToString());
-            }
-            updatedCustomers.Remove(customerToDelete);
-            WriteCustomersToFile(updatedCustomers);
         }
         public void PrintCustomerById(int id)
         {

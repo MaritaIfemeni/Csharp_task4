@@ -35,7 +35,6 @@ namespace src.Actions
             undoStack.Push(new HashSet<Customer>(customerHistory));
             redoStack.Clear();
         }
-
         public Customer GetCustomerById(int id)
         {
             return customers.FirstOrDefault(c => c.Id == id)!;
@@ -53,9 +52,14 @@ namespace src.Actions
         }
         public void DeleteCustomer(int id)
         {
-            fileHelper.DeleteCustomerFromFile(id);
-            customers.RemoveAll(c => c.Id == id);
-
+            List<Customer> updatedCustomers = fileHelper.ReadCustomersFromFile();
+            Customer customerToDelete = updatedCustomers.FirstOrDefault(c => c.Id == id)!;
+            if (customerToDelete == null)
+            {
+                throw new CustomerNotFoundException(id.ToString());
+            }
+            updatedCustomers.Remove(customerToDelete);
+            fileHelper.WriteCustomersToFile(updatedCustomers);
             undoStack.Push(new HashSet<Customer>(customerHistory));
             redoStack.Clear();
         }

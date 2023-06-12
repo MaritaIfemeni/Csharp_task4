@@ -7,7 +7,6 @@ public class Program
     {
         CustomerDatabase database = new CustomerDatabase();
         Console.WriteLine("Welcome to the Customer Database!");
-
         string choice = string.Empty;
         while (choice != "7")
         {
@@ -53,7 +52,6 @@ public class Program
                         Console.WriteLine("Customer not found in the database.");
                         break;
                     }
-
                     Console.WriteLine("Enter the updated details for the customer:");
                     Console.Write("First Name: ");
                     string updatedFirstName = Console.ReadLine()!;
@@ -63,7 +61,6 @@ public class Program
                     string updatedEmail = Console.ReadLine()!;
                     Console.Write("Address: ");
                     string updatedAddress = Console.ReadLine()!;
-
                     customerToUpdate.FirstName = updatedFirstName;
                     customerToUpdate.LastName = updatedLastName;
                     customerToUpdate.Email = updatedEmail;
@@ -116,7 +113,6 @@ public class Program
                     Console.WriteLine("Invalid choice!");
                     break;
             }
-
             Console.WriteLine();
         }
     }
